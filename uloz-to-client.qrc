@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pixmaps/add-download.png</file>
+        <file>pixmaps/daemon-connect.png</file>
+        <file>pixmaps/download-aborted.png</file>
+        <file>pixmaps/download-done.png</file>
+        <file>pixmaps/download-waiting.png</file>
+        <file>pixmaps/enable-queue.png</file>
+        <file>pixmaps/remove-download.png</file>
+        <file>pixmaps/start-download.png</file>
+        <file>pixmaps/start-downloads.png</file>
+    </qresource>
+</RCC>

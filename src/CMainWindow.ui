@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CMainWindow</class>
+ <widget class="QMainWindow" name="CMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Uloz.to</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <widget class="QTreeView" name="downloadView">
+      <property name="selectionMode">
+       <enum>QAbstractItemView::ExtendedSelection</enum>
+      </property>
+      <property name="rootIsDecorated">
+       <bool>false</bool>
+      </property>
+      <property name="itemsExpandable">
+       <bool>false</bool>
+      </property>
+      <property name="expandsOnDoubleClick">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLineEdit" name="lineEdit"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionConnect_to_daemon"/>
+   <addaction name="actionAdd_download"/>
+   <addaction name="actionRemove_download"/>
+   <addaction name="actionStart_download"/>
+   <addaction name="actionStop_download"/>
+   <addaction name="actionSearch"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionConnect_to_daemon">
+   <property name="icon">
+    <iconset resource="../uloz-to-client.qrc">
+     <normaloff>:/pixmaps/daemon-connect.png</normaloff>:/pixmaps/daemon-connect.png</iconset>
+   </property>
+   <property name="text">
+    <string>Connect to daemon</string>
+   </property>
+  </action>
+  <action name="actionAdd_download">
+   <property name="icon">
+    <iconset resource="../uloz-to-client.qrc">
+     <normaloff>:/pixmaps/add-download.png</normaloff>:/pixmaps/add-download.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add download</string>
+   </property>
+  </action>
+  <action name="actionRemove_download">
+   <property name="icon">
+    <iconset resource="../uloz-to-client.qrc">
+     <normaloff>:/pixmaps/remove-download.png</normaloff>:/pixmaps/remove-download.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove download</string>
+   </property>
+  </action>
+  <action name="actionStart_download">
+   <property name="icon">
+    <iconset resource="../uloz-to-client.qrc">
+     <normaloff>:/pixmaps/start-download.png</normaloff>:/pixmaps/start-download.png</iconset>
+   </property>
+   <property name="text">
+    <string>Start download</string>
+   </property>
+  </action>
+  <action name="actionStop_download">
+   <property name="icon">
+    <iconset resource="../uloz-to-client.qrc">
+     <normaloff>:/pixmaps/download-aborted.png</normaloff>:/pixmaps/download-aborted.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stop download</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="text">
+    <string>Search</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="../uloz-to-client.qrc"/>
+ </resources>
+ <connections/>
+</ui>
