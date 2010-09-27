@@ -43,7 +43,7 @@ class CSearchModel : public QAbstractItemModel
 		QVariant data(const QModelIndex & index, int role) const;
 
 		void search(const QString & pattern);
-		const SearchData & searchData(const QModelIndex & index) const;
+		const SearchData & searchData(int row) const;
 
 	private:
 		QNetworkAccessManager m_manager;

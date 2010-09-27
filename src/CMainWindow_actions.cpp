@@ -7,6 +7,8 @@
 
 void CMainWindow::on_actionConnect_to_daemon_triggered()
 {
+	m_downloadModel.clear();
+
 	if(m_socket.state() == QAbstractSocket::UnconnectedState)
 	{
 		QHostAddress host(m_settings.value("communication/daemonAddress", "127.0.0.1").toString());
@@ -14,8 +16,7 @@ void CMainWindow::on_actionConnect_to_daemon_triggered()
 
 		m_socket.connectToHost(host, port);
 	}
-	else if(m_socket.state() == QAbstractSocket::ConnectedState ||
-			m_socket.state() == QAbstractSocket::ConnectingState)
+	else
 	{
 		m_socket.close();
 	}
@@ -140,7 +141,7 @@ void CMainWindow::on_actionSearch_triggered()
 		foreach(const QModelIndex & index, sel)
 		{
 			stream << true;
-			stream << QString("http://uloz.to%1").arg(dialog.searchModel().searchData(index).url);
+			stream << QString("http://uloz.to%1").arg(dialog.data(index.row()).url);
 		}
 
 		stream.device()->seek(0);

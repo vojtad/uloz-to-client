@@ -94,9 +94,9 @@ void CSearchModel::search(const QString & pattern)
 	connect(m_reply, SIGNAL(finished()), this, SLOT(searchComplete()));
 }
 
-const SearchData & CSearchModel::searchData(const QModelIndex & index) const
+const SearchData & CSearchModel::searchData(int row) const
 {
-	return m_data.at(index.row());
+	return m_data.at(row);
 }
 
 void CSearchModel::searchComplete()

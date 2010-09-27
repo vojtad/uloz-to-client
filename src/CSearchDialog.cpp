@@ -10,9 +10,9 @@ CSearchDialog::CSearchDialog(QWidget * parent) :
 	connect(this, SIGNAL(accepted()), this, SLOT(addDownloads()));
 }
 
-const CSearchModel & CSearchDialog::searchModel() const
+const SearchData & CSearchDialog::data(int row) const
 {
-	return m_searchModel;
+	return m_searchModel.searchData(row);
 }
 
 QModelIndexList CSearchDialog::selected() const

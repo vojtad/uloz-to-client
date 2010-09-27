@@ -240,6 +240,13 @@ qint64 CDownloadModel::totalSpeed() const
 	return ret;
 }
 
+void CDownloadModel::clear()
+{
+	beginResetModel();
+	m_data.clear();
+	endResetModel();
+}
+
 void DownloadData::serialize(QDataStream & stream) const
 {
 	stream << id << url << userAgent << fileName << quint8(state) << miscState

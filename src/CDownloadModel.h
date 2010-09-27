@@ -101,6 +101,8 @@ class CDownloadModel : public QAbstractItemModel
 		static QString formatSize(qint64 size, const QString & str);
 		qint64 totalSpeed() const;
 
+		void clear();
+
 	private:
 		DownloadList m_data;
 };

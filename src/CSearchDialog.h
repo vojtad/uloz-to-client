@@ -12,7 +12,7 @@ class CSearchDialog : public QDialog
 	public:
 		CSearchDialog(QWidget *parent = 0);
 
-		const CSearchModel & searchModel() const;
+		const SearchData & data(int row) const;
 		QModelIndexList selected() const;
 
 	protected:
