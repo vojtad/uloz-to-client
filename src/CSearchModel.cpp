@@ -6,9 +6,9 @@
 
 CSearchModel::CSearchModel(QObject * parent) :
 	QAbstractItemModel(parent),
-	m_manager(this),
-	m_reply(0)
+	m_manager(this)
 {
+	connect(&m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(searchComplete(QNetworkReply *)));
 }
 
 int CSearchModel::rowCount(const QModelIndex & parent) const
@@ -88,10 +88,15 @@ QVariant CSearchModel::data(const QModelIndex & index, int role) const
 void CSearchModel::search(const QString & pattern)
 {
 	QNetworkRequest request;
-	request.setUrl(QUrl(QString("http://uloz.to/hledej/?q=%1").arg(pattern)));
 
-	m_reply = m_manager.get(request);
-	connect(m_reply, SIGNAL(finished()), this, SLOT(searchComplete()));
+	request.setUrl(QUrl(QString("http://uloz.to/hledej/?q=%1").arg(pattern)));
+	m_manager.get(request);
+
+	for(int i = 1; i < 5; ++i)
+	{
+		request.setUrl(QUrl(QString("http://uloz.to/hledej/?q=%1&pos=%2").arg(pattern).arg(i * 50)));
+		m_manager.get(request);
+	}
 }
 
 const SearchData & CSearchModel::searchData(int row) const
@@ -99,9 +104,9 @@ const SearchData & CSearchModel::searchData(int row) const
 	return m_data.at(row);
 }
 
-void CSearchModel::searchComplete()
+void CSearchModel::searchComplete(QNetworkReply * reply)
 {
-	if(m_reply->isFinished() && m_reply->error() == QNetworkReply::NoError)
+	if(reply->isFinished() && reply->error() == QNetworkReply::NoError)
 	{
 		QRegExp rxUrlName("<td align=\"left\" ?><a href=\"([^\"]+)\">([^<]+)</a></td>");
 		QRegExp rxSize("<td align=\"right\" ?><span style=\"display:none\">[ ]*([0-9]+)</span>");
@@ -109,9 +114,9 @@ void CSearchModel::searchComplete()
 		SearchData data;
 		SearchList list;
 
-		while(!m_reply->atEnd())
+		while(!reply->atEnd())
 		{
-			QByteArray raw(m_reply->readLine());
+			QByteArray raw(reply->readLine());
 			QString line(QString::fromUtf8(raw.data(), raw.size()));
 
 			if(rxUrlName.indexIn(line) != -1)
@@ -130,13 +135,10 @@ void CSearchModel::searchComplete()
 			}
 		}
 
-		beginResetModel();
-		m_data = list;
+		beginInsertRows(QModelIndex(), m_data.count(), m_data.count() + list.count());
+		m_data.append(list);
 		endResetModel();
 	}
-	else
-	{
-		m_reply->deleteLater();
-		m_reply = 0;
-	}
+
+	reply->deleteLater();
 }

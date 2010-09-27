@@ -45,7 +45,8 @@ class CMainWindow : public QMainWindow
 		QTcpSocket m_socket;
 
 	private slots:
-		void on_actionStop_download_triggered();
+		void on_enableQueueCheckBox_stateChanged(int state);
+  void on_actionStop_download_triggered();
 		void on_actionStart_download_triggered();
 		void on_actionSearch_triggered();
 		void on_actionRemove_download_triggered();

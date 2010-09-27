@@ -47,11 +47,10 @@ class CSearchModel : public QAbstractItemModel
 
 	private:
 		QNetworkAccessManager m_manager;
-		QNetworkReply * m_reply;
 		SearchList m_data;
 
 	private slots:
-		void searchComplete();
+		void searchComplete(QNetworkReply * reply);
 };
 
 #endif // CSEARCHMODEL_H

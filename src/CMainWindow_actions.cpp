@@ -151,3 +151,9 @@ void CMainWindow::on_actionSearch_triggered()
 			m_socket.write(buffer);
 	}
 }
+
+void CMainWindow::on_enableQueueCheckBox_stateChanged(int state)
+{
+	bool enable = state == Qt::Checked;
+	m_ui.maxActiveDownloadsSpinBox->setEnabled(enable);
+}
