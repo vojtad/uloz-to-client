@@ -35,7 +35,7 @@ void CMainWindow::on_actionAdd_download_triggered()
 			QByteArray buffer;
 			QDataStream stream(&buffer, QIODevice::WriteOnly);
 
-			stream << quint32(0);
+			stream << qint64(0);
 			stream << quint8(OPCODE_ADD);
 			foreach(const QString & url, list)
 			{
@@ -44,7 +44,7 @@ void CMainWindow::on_actionAdd_download_triggered()
 			}
 
 			stream.device()->seek(0);
-			stream << quint32(buffer.size() - sizeof(quint32));
+			stream << qint64(buffer.size() - sizeof(qint64));
 
 			m_socket.write(buffer);
 		}
@@ -61,7 +61,7 @@ void CMainWindow::on_actionRemove_download_triggered()
 			QByteArray buffer;
 			QDataStream stream(&buffer, QIODevice::WriteOnly);
 
-			stream << quint32(0);
+			stream << qint64(0);
 			stream << quint8(OPCODE_REMOVE);
 			foreach(const QModelIndex & index, list)
 			{
@@ -69,7 +69,7 @@ void CMainWindow::on_actionRemove_download_triggered()
 			}
 
 			stream.device()->seek(0);
-			stream << quint32(buffer.size() - sizeof(quint32));
+			stream << qint64(buffer.size() - sizeof(qint64));
 
 			m_socket.write(buffer);
 		}
@@ -86,7 +86,7 @@ void CMainWindow::on_actionStart_download_triggered()
 			QByteArray buffer;
 			QDataStream stream(&buffer, QIODevice::WriteOnly);
 
-			stream << quint32(0);
+			stream << qint64(0);
 			stream << quint8(OPCODE_START);
 			foreach(const QModelIndex & index, list)
 			{
@@ -94,7 +94,7 @@ void CMainWindow::on_actionStart_download_triggered()
 			}
 
 			stream.device()->seek(0);
-			stream << quint32(buffer.size() - sizeof(quint32));
+			stream << qint64(buffer.size() - sizeof(qint64));
 
 			m_socket.write(buffer);
 		}
@@ -111,7 +111,7 @@ void CMainWindow::on_actionStop_download_triggered()
 			QByteArray buffer;
 			QDataStream stream(&buffer, QIODevice::WriteOnly);
 
-			stream << quint32(0);
+			stream << qint64(0);
 			stream << quint8(OPCODE_STOP);
 			foreach(const QModelIndex & index, list)
 			{
@@ -119,7 +119,7 @@ void CMainWindow::on_actionStop_download_triggered()
 			}
 
 			stream.device()->seek(0);
-			stream << quint32(buffer.size() - sizeof(quint32));
+			stream << qint64(buffer.size() - sizeof(qint64));
 
 			m_socket.write(buffer);
 		}
@@ -136,16 +136,19 @@ void CMainWindow::on_actionSearch_triggered()
 		QDataStream stream(&buffer, QIODevice::WriteOnly);
 		QModelIndexList sel = dialog.selected();
 
-		stream << quint32(0);
+		stream << qint64(0);
 		stream << quint8(OPCODE_ADD);
 		foreach(const QModelIndex & index, sel)
 		{
-			stream << true;
-			stream << QString("http://uloz.to%1").arg(dialog.data(index.row()).url);
+			if(index.column() == 0)
+			{
+				stream << true;
+				stream << QString("http://uloz.to%1").arg(dialog.data(index.row()).url);
+			}
 		}
 
 		stream.device()->seek(0);
-		stream << quint32(buffer.size() - sizeof(quint32));
+		stream << qint64(buffer.size() - sizeof(qint64));
 
 		if(m_socket.isWritable())
 			m_socket.write(buffer);

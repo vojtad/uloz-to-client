@@ -1,12 +1,16 @@
 #include "CSearchDialog.h"
 
+#include <QSortFilterProxyModel>
+
 CSearchDialog::CSearchDialog(QWidget * parent) :
 	QDialog(parent),
+	m_filterModel(this),
 	m_searchModel(this)
 {
 	m_ui.setupUi(this);
 
-	m_ui.searchView->setModel(&m_searchModel);
+	m_filterModel.setSourceModel(&m_searchModel);
+	m_ui.searchView->setModel(&m_filterModel);
 	connect(this, SIGNAL(accepted()), this, SLOT(addDownloads()));
 }
 
@@ -17,7 +21,8 @@ const SearchData & CSearchDialog::data(int row) const
 
 QModelIndexList CSearchDialog::selected() const
 {
-	return m_ui.searchView->selectionModel()->selectedRows(0);
+	const QItemSelection & selection = m_ui.searchView->selectionModel()->selection();
+	return m_filterModel.mapSelectionToSource(selection).indexes();
 }
 
 void CSearchDialog::changeEvent(QEvent * e)

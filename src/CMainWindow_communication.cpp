@@ -17,10 +17,10 @@ void CMainWindow::socketDisconnected()
 
 void CMainWindow::socketRead()
 {
-	while(m_socket.bytesAvailable() > 4)
+	while(m_socket.bytesAvailable() > qint64(sizeof(qint64)))
 	{
 		QDataStream stream(&m_socket);
-		quint32 size;
+		qint64 size;
 
 		stream >> size;
 		if(m_socket.bytesAvailable() >= size)
@@ -60,7 +60,7 @@ void CMainWindow::handleUpdate(QDataStream & stream)
 		m_downloadModel.insertDownloads(downloadList);
 	}
 
-	m_totalSpeedLabel.setText(QString("Total download speed: %1").arg(CDownloadModel::formatSize(m_downloadModel.totalSpeed(), "B/s")));
+	m_statusLabels.update(m_downloadModel.status());
 }
 
 void CMainWindow::handleRemove(QDataStream & stream)

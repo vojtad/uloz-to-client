@@ -229,15 +229,24 @@ QString CDownloadModel::formatSize(qint64 size, const QString & str)
 	return QString("%1 Gi%2").arg(size / (1024.0f * 1024.0f * 1024.0f), 0, 'f', 2).arg(str);
 }
 
-qint64 CDownloadModel::totalSpeed() const
+DownloadStatus CDownloadModel::status() const
 {
-	qint64 ret = 0;
+	DownloadStatus status;
+
 	foreach(const DownloadData & d, m_data)
 	{
-		ret += d.speed;
+		status.totalSpeed += d.speed;
+		status.totalCount++;
+
+		if(d.isWaiting())
+			status.waitingCount++;
+		else if(d.isActive())
+			status.activeCount++;
+		else if(d.isFailed())
+			status.failedCount++;
 	}
 
-	return ret;
+	return status;
 }
 
 void CDownloadModel::clear()
@@ -261,4 +270,20 @@ void DownloadData::unserialize(QDataStream & stream)
 			>> downloaded >> size >> speed;
 
 	state = DownloadState(st);
+}
+
+bool DownloadData::isWaiting() const
+{
+	return state == STATE_WAITING;
+}
+
+bool DownloadData::isActive() const
+{
+	return state == STATE_CAPTCHA || state == STATE_RETRIEVING_URL || state == STATE_DOWNLOADING ||
+			state == STATE_WILL_RETRY || state == STATE_ABORTING;
+}
+
+bool DownloadData::isFailed() const
+{
+	return state == STATE_ERROR || state == STATE_NET_ERROR;
 }

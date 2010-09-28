@@ -18,6 +18,19 @@ enum ClientOpcodes
 	OPCODE_LIST
 };
 
+struct DownloadStatusLabels
+{
+	DownloadStatusLabels(QWidget * parent = 0);
+
+	QLabel totalSpeed;
+	QLabel totalCount;
+	QLabel waitingCount;
+	QLabel activeCount;
+	QLabel failedCount;
+
+	void update(const DownloadStatus & status);
+};
+
 class CMainWindow : public QMainWindow
 {
 		Q_OBJECT
@@ -40,7 +53,8 @@ class CMainWindow : public QMainWindow
 		Ui::CMainWindow m_ui;
 		QSettings m_settings;
 
-		QLabel m_totalSpeedLabel;
+		DownloadStatusLabels m_statusLabels;
+
 		CDownloadModel m_downloadModel;
 		QTcpSocket m_socket;
 

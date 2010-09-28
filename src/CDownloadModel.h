@@ -14,7 +14,8 @@ enum DownloadState
 	STATE_NET_ERROR,
 	STATE_ERROR,
 	STATE_WILL_RETRY,
-	STATE_ABORTED
+	STATE_ABORTED,
+	STATE_ABORTING
 };
 
 enum Errors
@@ -63,6 +64,37 @@ struct DownloadData
 
 	void serialize(QDataStream & stream) const;
 	void unserialize(QDataStream & stream);
+
+	bool isActive() const;
+	bool isWaiting() const;
+	bool isFailed() const;
+};
+
+struct DownloadStatus
+{
+	DownloadStatus() :
+		totalSpeed(0),
+		totalCount(0),
+		waitingCount(0),
+		failedCount(0),
+		activeCount(0)
+	{
+	}
+
+	DownloadStatus(const DownloadStatus & status) :
+		totalSpeed(status.totalSpeed),
+		totalCount(status.totalCount),
+		waitingCount(status.waitingCount),
+		failedCount(status.failedCount),
+		activeCount(status.activeCount)
+	{
+	}
+
+	qint64 totalSpeed;
+	quint32 totalCount;
+	quint32 waitingCount;
+	quint32 failedCount;
+	quint32 activeCount;
 };
 
 typedef QList<DownloadData> DownloadList;
@@ -99,7 +131,7 @@ class CDownloadModel : public QAbstractItemModel
 
 		const DownloadData & data(quint32 id) const;
 		static QString formatSize(qint64 size, const QString & str);
-		qint64 totalSpeed() const;
+		DownloadStatus status() const;
 
 		void clear();
 

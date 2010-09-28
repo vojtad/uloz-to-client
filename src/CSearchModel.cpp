@@ -87,6 +87,10 @@ QVariant CSearchModel::data(const QModelIndex & index, int role) const
 
 void CSearchModel::search(const QString & pattern)
 {
+	beginResetModel();
+	m_data.clear();
+	endResetModel();
+
 	QNetworkRequest request;
 
 	request.setUrl(QUrl(QString("http://uloz.to/hledej/?q=%1").arg(pattern)));
