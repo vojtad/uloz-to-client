@@ -31,19 +31,7 @@
    <item row="1" column="0" colspan="2">
     <widget class="QPlainTextEdit" name="urlListEdit">
      <property name="plainText">
-      <string>http://uloz.to/5742174/futurama-s01e07-ma-tri-slunce.srt
-http://uloz.to/5725640/futurama-s01e01-vesmirny-pilot-3000.avi
-http://uloz.to/5751432/futurama-s01e08-drtivy-odpad.srt
-http://uloz.to/5726450/futurama-s01e03-nejlepsi-pritel-robota.srt
-http://uloz.to/5726436/futurama-s01e03-nejlepsi-pritel-robota.avi
-http://uloz.to/5742175/futurama-s01e05-utek-z-planety-robotu.srt
-http://uloz.to/5726744/futurama-s01e04-marna-vesmirne-lasky-snaha.avi
-http://uloz.to/5742174/futurama-s01e07-ma-tri-slunce.srt
-http://uloz.to/5751331/futurama-s01e08-drtivy-odpad.avi
-http://uloz.to/5742175/futurama-s01e05-utek-z-planety-robotu.srt
-http://uloz.to/5751703/futurama-s01e09-peklo-jsou-ti-druzi-roboti.avi 
-http://uloz.to/5761233/futurama-s01e10-zkaza-titaniku.avi
-http://uloz.to/5761505/futurama-s01e11-martanska-univerzita.avi</string>
+      <string/>
      </property>
     </widget>
    </item>

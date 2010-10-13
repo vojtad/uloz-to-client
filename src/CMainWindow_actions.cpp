@@ -11,8 +11,8 @@ void CMainWindow::on_actionConnect_to_daemon_triggered()
 
 	if(m_socket.state() == QAbstractSocket::UnconnectedState)
 	{
-		QHostAddress host(m_settings.value("communication/daemonAddress", "127.0.0.1").toString());
-		quint16 port = m_settings.value("communication/daemonPort", 1234).toInt();
+		QHostAddress host(m_hostAddressEdit->text());
+		quint16 port = m_hostPortSpinBox->value();
 
 		m_socket.connectToHost(host, port);
 	}

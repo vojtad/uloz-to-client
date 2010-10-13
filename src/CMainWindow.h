@@ -31,6 +31,8 @@ struct DownloadStatusLabels
 	void update(const DownloadStatus & status);
 };
 
+class QLineEdit;
+
 class CMainWindow : public QMainWindow
 {
 		Q_OBJECT
@@ -53,6 +55,8 @@ class CMainWindow : public QMainWindow
 		Ui::CMainWindow m_ui;
 		QSettings m_settings;
 
+		QLineEdit * m_hostAddressEdit;
+		QSpinBox * m_hostPortSpinBox;
 		DownloadStatusLabels m_statusLabels;
 
 		CDownloadModel m_downloadModel;
