@@ -48,3 +48,5 @@ qt4_add_resources(RC_FILES ${RCS})
 
 add_executable(uloz-to-client ${SRCS} ${MOC_SRCS} ${UIS_H} ${RC_FILES})
 target_link_libraries(uloz-to-client ${QT_LIBRARIES})
+
+install(TARGETS uloz-to-client DESTINATION bin)
