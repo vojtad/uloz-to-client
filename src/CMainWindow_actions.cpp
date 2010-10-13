@@ -158,5 +158,33 @@ void CMainWindow::on_actionSearch_triggered()
 void CMainWindow::on_enableQueueCheckBox_stateChanged(int state)
 {
 	bool enable = state == Qt::Checked;
+
 	m_ui.maxActiveDownloadsSpinBox->setEnabled(enable);
+
+	QByteArray buffer;
+	QDataStream stream(&buffer, QIODevice::WriteOnly);
+	stream << qint64(0);
+	stream << quint8(OPCODE_QUEUE);
+	stream << enable;
+	stream << quint8(m_ui.maxActiveDownloadsSpinBox->value());
+	stream.device()->seek(0);
+	stream << qint64(buffer.size() - sizeof(qint64));
+
+	if(m_socket.isWritable())
+		m_socket.write(buffer);
+}
+
+void CMainWindow::on_maxActiveDownloadsSpinBox_valueChanged(int value)
+{
+	QByteArray buffer;
+	QDataStream stream(&buffer, QIODevice::WriteOnly);
+	stream << qint64(0);
+	stream << quint8(OPCODE_QUEUE);
+	stream << m_ui.enableQueueCheckBox->isEnabled();
+	stream << quint8(value);
+	stream.device()->seek(0);
+	stream << qint64(buffer.size() - sizeof(qint64));
+
+	if(m_socket.isWritable())
+		m_socket.write(buffer);
 }

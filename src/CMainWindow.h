@@ -15,7 +15,8 @@ enum ClientOpcodes
 	OPCODE_REMOVE, // data = id
 	OPCODE_START, // data = id
 	OPCODE_STOP, // data = id
-	OPCODE_LIST
+	OPCODE_LIST,
+	OPCODE_QUEUE
 };
 
 struct DownloadStatusLabels
@@ -50,6 +51,7 @@ class CMainWindow : public QMainWindow
 		void changeOnConnected(bool connected);
 		void handleUpdate(QDataStream & stream);
 		void handleRemove(QDataStream & stream);
+		void handleQueue(QDataStream & stream);
 
 	private:
 		Ui::CMainWindow m_ui;
@@ -63,8 +65,9 @@ class CMainWindow : public QMainWindow
 		QTcpSocket m_socket;
 
 	private slots:
+		void on_maxActiveDownloadsSpinBox_valueChanged(int value);
 		void on_enableQueueCheckBox_stateChanged(int state);
-  void on_actionStop_download_triggered();
+		void on_actionStop_download_triggered();
 		void on_actionStart_download_triggered();
 		void on_actionSearch_triggered();
 		void on_actionRemove_download_triggered();

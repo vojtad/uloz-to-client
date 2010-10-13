@@ -6,9 +6,9 @@
 
 CMainWindow::CMainWindow(QWidget *parent) :
 	QMainWindow(parent),
-	m_downloadModel(this),
 	m_hostAddressEdit(new QLineEdit(this)),
-	m_hostPortSpinBox(new QSpinBox(this))
+	m_hostPortSpinBox(new QSpinBox(this)),
+	m_downloadModel(this)
 {
 	m_ui.setupUi(this);
 

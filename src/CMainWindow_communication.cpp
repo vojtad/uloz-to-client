@@ -36,6 +36,8 @@ void CMainWindow::socketRead()
 					handleUpdate(bStream); break;
 				case OPCODE_REMOVE:
 					handleRemove(bStream); break;
+				case OPCODE_QUEUE:
+					handleQueue(bStream); break;
 				default:
 					qWarning() << "Unhandled packet:" << quint32(opcode); break;
 			}
@@ -71,4 +73,16 @@ void CMainWindow::handleRemove(QDataStream & stream)
 		stream >> id;
 		m_downloadModel.removeDownload(id);
 	}
+}
+
+void CMainWindow::handleQueue(QDataStream & stream)
+{
+	bool enable;
+	quint8 max;
+
+	stream >> enable;
+	stream >> max;
+
+	m_ui.enableQueueCheckBox->setChecked(enable);
+	m_ui.maxActiveDownloadsSpinBox->setValue(max);
 }
