@@ -40,6 +40,8 @@ CMainWindow::CMainWindow(QWidget *parent) :
 			this, SLOT(socketError(QAbstractSocket::SocketError)));
 	connect(&m_socket, SIGNAL(disconnected()), this, SLOT(socketDisconnected()));
 	connect(&m_socket, SIGNAL(readyRead()), this, SLOT(socketRead()));
+
+	changeOnConnected(false);
 }
 
 CMainWindow::~CMainWindow()
@@ -69,16 +71,26 @@ void CMainWindow::loadSettings()
 void CMainWindow::saveSettings()
 {
 	m_settings.setValue("communication/daemonAddress", m_hostAddressEdit->text());
-	m_settings.setValue("communication/daemonAddress", m_hostPortSpinBox->value());
+	m_settings.setValue("communication/daemonPort", m_hostPortSpinBox->value());
 }
 
 void CMainWindow::changeOnConnected(bool connected)
 {
 	m_hostAddressEdit->setEnabled(!connected);
 	m_hostPortSpinBox->setEnabled(!connected);
+
 	m_ui.actionConnect_to_daemon->setEnabled(!connected);
 	m_ui.actionConnect_to_daemon->setText(connected ? tr("Disconnect from daemon") :
 										  tr("Connect to daemon"));
+
+	m_ui.actionAdd_download->setEnabled(connected);
+	m_ui.actionRemove_download->setEnabled(connected);
+	m_ui.actionStart_download->setEnabled(connected);
+	m_ui.actionStop_download->setEnabled(connected);
+	m_ui.actionSearch->setEnabled(connected);
+	m_ui.enableQueueCheckBox->setEnabled(connected);
+	m_ui.maxActiveDownloadsSpinBox->setEnabled(connected);
+	m_ui.downloadView->setEnabled(connected);
 }
 
 DownloadStatusLabels::DownloadStatusLabels(QWidget * parent) :
