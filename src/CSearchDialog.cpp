@@ -45,5 +45,10 @@ void CSearchDialog::addDownloads()
 
 void CSearchDialog::on_searchButton_clicked()
 {
-	m_searchModel.search(m_ui.searchEdit->text());
+	SearchInfo info;
+	info.pattern = m_ui.searchEdit->text();
+	info.pageCount = m_ui.pageCountSpinBox->value();
+	info.media = (Media)m_ui.mediaComboBox->currentIndex();
+	info.orderBy = (OrderBy)m_ui.orderByComboBox->currentIndex();
+	m_searchModel.search(info);
 }

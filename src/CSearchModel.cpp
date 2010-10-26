@@ -52,12 +52,8 @@ QVariant CSearchModel::headerData(int section, Qt::Orientation orientation, int 
 		{
 		case COL_NAME:
 			return tr("Name");
-		case COL_URL:
-			return tr("Url");
 		case COL_SIZE:
 			return tr("Size");
-		case COL_DATE:
-			return tr("Date");
 		}
 	}
 
@@ -73,32 +69,68 @@ QVariant CSearchModel::data(const QModelIndex & index, int role) const
 		{
 		case COL_NAME:
 			return data.name;
-		case COL_URL:
-			return data.url;
 		case COL_SIZE:
-			return CDownloadModel::formatSize(data.size, "B");
-		case COL_DATE:
-			return data.date;
+			return data.size;//CDownloadModel::formatSize(data.size, "B");
 		}
 	}
 
 	return QVariant();
 }
 
-void CSearchModel::search(const QString & pattern)
+void CSearchModel::search(const SearchInfo & info)
 {
 	beginResetModel();
 	m_data.clear();
 	endResetModel();
 
-	QNetworkRequest request;
+	QString getData;
 
-	request.setUrl(QUrl(QString("http://uloz.to/hledej/?q=%1").arg(pattern)));
-	m_manager.get(request);
+	getData.append(QString("?do=hledejAjaxemWoe&q=%1").arg(info.pattern));
 
-	for(int i = 1; i < 5; ++i)
+	switch(info.media)
 	{
-		request.setUrl(QUrl(QString("http://uloz.to/hledej/?q=%1&pos=%2").arg(pattern).arg(i * 50)));
+	case MOVIES:
+		getData.append("&media=video"); break;
+	case IMAGE:
+		getData.append("&media=image"); break;
+	case MUSIC:
+		getData.append("&media=music"); break;
+	case PR0N:
+		getData.append("&disclaimer=1&media=pr0n"); break;
+	case ALL:
+	default:
+		break;
+	}
+
+	switch(info.orderBy)
+	{
+	case NEWEST:
+		getData.append("&type=%40id"); break;
+	case RATING:
+		getData.append("&type=ratings"); break;
+	case DOWNLOAD_COUNT:
+		getData.append("&type=downloads"); break;
+	case SIZE_DESC:
+		getData.append("&type=size"); break;
+	case SIZE_ASC:
+		getData.append("&type=size&podle=asc"); break;
+	case RELEVANCY:
+	default:
+		break;
+	}
+
+	QNetworkRequest request;
+	request.setRawHeader("X-Requested-With", "XMLHttpRequest");
+	request.setRawHeader("Accept", "application/json, text/javascript, */*");
+
+	for(quint32 i = 1; i <= info.pageCount; ++i)
+	{
+		QString url = "http://www.uloz.to/hledej/";
+		url.append(getData);
+		if(i > 1)
+			url.append(QString("&pos=%1").arg(i));
+		request.setUrl(QUrl(url));
+
 		m_manager.get(request);
 	}
 }
@@ -112,31 +144,16 @@ void CSearchModel::searchComplete(QNetworkReply * reply)
 {
 	if(reply->isFinished() && reply->error() == QNetworkReply::NoError)
 	{
-		QRegExp rxUrlName("<td align=\"left\" ?><a href=\"([^\"]+)\">([^<]+)</a></td>");
-		QRegExp rxSize("<td align=\"right\" ?><span style=\"display:none\">[ ]*([0-9]+)</span>");
-		QRegExp rxDate("<td align=\"right\" ?>([^<]+)</td>");
-		SearchData data;
+		QRegExp rx("<div[^>]*>[^<]*<h4>[^<]*<a class=\\\\\"name\\\\\" href=\\\\\"[^0-9]+([0-9]+)[^\"]*\\\\\" title=\\\\\"([^\"]+)\\\\\">[^<]+<\\\\/a>[^<]*<\\\\/h4>[^<]*<span class=\\\\\"lft\\\\\">[^<]*<\\\\/span>[^<]*<span[^>]*>([^<]+)<\\\\/span>");
+		QByteArray data(reply->readAll());
+		SearchData search;
 		SearchList list;
-
-		while(!reply->atEnd())
+		for(int pos = rx.indexIn(data); pos != -1; pos = rx.indexIn(data, pos + 1))
 		{
-			QByteArray raw(reply->readLine());
-			QString line(QString::fromUtf8(raw.data(), raw.size()));
-
-			if(rxUrlName.indexIn(line) != -1)
-			{
-				data.name = rxUrlName.cap(2);
-				data.url = rxUrlName.cap(1);
-			}
-			else if(rxSize.indexIn(line) != -1)
-			{
-				data.size = rxSize.cap(1).toInt();
-			}
-			else if(rxDate.indexIn(line) != -1)
-			{
-				data.date = rxDate.cap(1).replace("&nbsp;", " ");
-				list.push_back(data);
-			}
+			search.id = rx.cap(1).toInt();
+			search.name = rx.cap(2);
+			search.size = rx.cap(3);
+			list.append(search);
 		}
 
 		beginInsertRows(QModelIndex(), m_data.count(), m_data.count() + list.count());

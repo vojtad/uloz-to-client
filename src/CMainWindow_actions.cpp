@@ -142,8 +142,9 @@ void CMainWindow::on_actionSearch_triggered()
 		{
 			if(index.column() == 0)
 			{
+				const SearchData & data = dialog.data(index.row());
 				stream << true;
-				stream << QString("http://uloz.to%1").arg(dialog.data(index.row()).url);
+				stream << QString("http://uloz.to/%1/%2").arg(data.id).arg(data.name);
 			}
 		}
 

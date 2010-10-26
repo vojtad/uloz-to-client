@@ -6,12 +6,38 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
+enum Media
+{
+	ALL = 0,
+	MOVIES,
+	IMAGE,
+	MUSIC,
+	PR0N
+};
+
+enum OrderBy
+{
+	RELEVANCY = 0, // nothing
+	NEWEST, // "%40id"
+	RATING, // "ratings"
+	DOWNLOAD_COUNT, // "downloads"
+	SIZE_DESC, // "size"
+	SIZE_ASC // "size&podle=asc"
+};
+
+struct SearchInfo
+{
+	QString pattern;
+	quint32 pageCount;
+	Media media;
+	OrderBy orderBy;
+};
+
 struct SearchData
 {
+	quint32 id;
 	QString name;
-	QString url;
-	QString date;
-	qint64 size;
+	QString size;
 };
 
 typedef QList<SearchData> SearchList;
@@ -24,9 +50,7 @@ class CSearchModel : public QAbstractItemModel
 		{
 			COL_NAME = 0,
 			COL_SIZE,
-			COL_DATE,
-			NUM_COL,
-			COL_URL
+			NUM_COL
 		};
 
 	public:
@@ -42,7 +66,7 @@ class CSearchModel : public QAbstractItemModel
 		QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 		QVariant data(const QModelIndex & index, int role) const;
 
-		void search(const QString & pattern);
+		void search(const SearchInfo & info);
 		const SearchData & searchData(int row) const;
 
 	private:

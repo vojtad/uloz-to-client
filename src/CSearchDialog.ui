@@ -6,18 +6,147 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>745</width>
+    <height>398</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Search</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
+   <item row="0" column="0">
+    <widget class="QLabel" name="mediaLabel">
+     <property name="text">
+      <string>Media:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="mediaComboBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <item>
+      <property name="text">
+       <string>All</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Movies</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Images</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Music</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Pr0n</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="orderByLabel">
+     <property name="text">
+      <string>Order by:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QComboBox" name="orderByComboBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <item>
+      <property name="text">
+       <string>Relevancy</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Newest</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Rating</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Downloads count</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Size descending</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Size ascending</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QLabel" name="pageCountLabel">
+     <property name="text">
+      <string>Page count:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="5">
+    <widget class="QSpinBox" name="pageCountSpinBox">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>1000</number>
+     </property>
+     <property name="value">
+      <number>1</number>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="searchLabel">
+     <property name="text">
+      <string>Search:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="3">
     <widget class="QLineEdit" name="searchEdit"/>
    </item>
-   <item row="1" column="0" colspan="3">
+   <item row="1" column="4" colspan="2">
+    <widget class="QPushButton" name="searchButton">
+     <property name="text">
+      <string>Search</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+     <property name="default">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="6">
     <widget class="QTreeView" name="searchView">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
@@ -33,7 +162,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
+   <item row="3" column="4">
     <widget class="QPushButton" name="addButton">
      <property name="text">
       <string>Add</string>
@@ -43,26 +172,13 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="2">
+   <item row="3" column="5">
     <widget class="QPushButton" name="closeButton">
      <property name="text">
       <string>Close</string>
      </property>
      <property name="autoDefault">
       <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QPushButton" name="searchButton">
-     <property name="text">
-      <string>Search</string>
-     </property>
-     <property name="autoDefault">
-      <bool>false</bool>
-     </property>
-     <property name="default">
-      <bool>true</bool>
      </property>
     </widget>
    </item>

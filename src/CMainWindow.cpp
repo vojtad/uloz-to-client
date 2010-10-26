@@ -87,7 +87,7 @@ void CMainWindow::changeOnConnected(bool connected)
 	m_ui.actionRemove_download->setEnabled(connected);
 	m_ui.actionStart_download->setEnabled(connected);
 	m_ui.actionStop_download->setEnabled(connected);
-	m_ui.actionSearch->setEnabled(connected);
+	//m_ui.actionSearch->setEnabled(connected);
 	m_ui.enableQueueCheckBox->setEnabled(connected);
 	m_ui.maxActiveDownloadsSpinBox->setEnabled(connected);
 	m_ui.downloadView->setEnabled(connected);

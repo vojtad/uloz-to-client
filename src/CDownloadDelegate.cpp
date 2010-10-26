@@ -16,7 +16,7 @@ QSize CDownloadDelegate::sizeHint(const QStyleOptionViewItem & option, const QMo
 	if(!data.isValid() || index.column() == CDownloadModel::COL_PROGRESS)
 		return QSize(120, 20);
 
-	return QSize(option.fontMetrics.width(data.toString(), 50) + 10, 20);
+	return QSize(QItemDelegate::sizeHint(option, index).width(), 20);
 }
 
 void CDownloadDelegate::paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
