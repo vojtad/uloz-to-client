@@ -18,6 +18,7 @@
 
 #include "CSearchDialog.h"
 
+#include <QListView>
 #include <QSortFilterProxyModel>
 
 CSearchDialog::CSearchDialog(QWidget * parent) :
@@ -27,9 +28,9 @@ CSearchDialog::CSearchDialog(QWidget * parent) :
 {
 	m_ui.setupUi(this);
 
+	//m_ui.searchView->setViewMode(QListView::IconMode);
 	m_filterModel.setSourceModel(&m_searchModel);
 	m_ui.searchView->setModel(&m_filterModel);
-	connect(this, SIGNAL(accepted()), this, SLOT(addDownloads()));
 }
 
 const SearchData & CSearchDialog::data(int row) const
@@ -45,20 +46,15 @@ QModelIndexList CSearchDialog::selected() const
 
 void CSearchDialog::changeEvent(QEvent * e)
 {
-    QDialog::changeEvent(e);
+	QDialog::changeEvent(e);
 	switch (e->type())
 	{
-    case QEvent::LanguageChange:
+	case QEvent::LanguageChange:
 		m_ui.retranslateUi(this);
-        break;
-    default:
-        break;
-    }
-}
-
-void CSearchDialog::addDownloads()
-{
-
+		break;
+	default:
+		break;
+	}
 }
 
 void CSearchDialog::on_searchButton_clicked()

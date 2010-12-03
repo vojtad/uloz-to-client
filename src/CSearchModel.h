@@ -53,7 +53,7 @@ struct SearchInfo
 
 struct SearchData
 {
-	quint32 id;
+	QString link;
 	QString name;
 	QString videoLength;
 	QString size;

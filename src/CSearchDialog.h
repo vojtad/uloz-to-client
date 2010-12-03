@@ -27,7 +27,7 @@
 
 class CSearchDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 	public:
 		CSearchDialog(QWidget *parent = 0);
 
@@ -45,7 +45,6 @@ class CSearchDialog : public QDialog
 
 	private slots:
 		void on_searchButton_clicked();
-		void addDownloads();
 };
 
 #endif // CSEARCHDIALOG_H

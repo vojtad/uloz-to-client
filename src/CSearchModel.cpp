@@ -103,7 +103,7 @@ void CSearchModel::search(const SearchInfo & info)
 
 	QString getData;
 
-	getData.append(QString("?do=hledejAjaxemWoe&q=%1").arg(info.pattern));
+	getData.append(QString("?do=ajaxSearch&q=%1").arg(info.pattern));
 
 	switch(info.media)
 	{
@@ -162,15 +162,15 @@ void CSearchModel::searchComplete(QNetworkReply * reply)
 {
 	if(reply->isFinished() && reply->error() == QNetworkReply::NoError)
 	{
-		QRegExp rx("<div[^>]*>[^<]*<h4>[^<]*<a class=\\\\\"name\\\\\" href=\\\\\"[^0-9]+([0-9]+)[^\"]*\\\\\" title=\\\\\"([^\"]+)\\\\\">[^<]+<\\\\/a>[^<]*<\\\\/h4>[^<]*<span class=\\\\\"lft\\\\\">[^<]*<\\\\/span>[^<]*<span[^>]*>([^<]+)<\\\\/span>");
-		QRegExp rxSize("([0-9:]+) ?| ?(.+)");
+		QRegExp rx("<div class=\\\\\"innerthumb\\\\\">[^<]*<a href=\\\\\"([^\"]+)\\\\\"><img[^>]*\\\\/><\\\\/a>[^<]*<\\\\/div>[^<]*<\\\\/div>[^<]*<div class=\\\\\"info\\\\\">[^<]*<h4>[^<]*<a class=\\\\\"name\\\\\" href=\\\\\"[^\"]+\\\\\" title=\\\\\"([^\"]+)\\\\\">[^<]+<\\\\/a>[^<]*<\\\\/h4>[^<]*<span class=\\\\\"lft\\\\\">[^<]*<\\\\/span>[^<]*<span[^>]*>([^<]+)<\\\\/span>");
+		QRegExp rxSize("^([0-9:]+) \\| (.+)$");
 		QByteArray data(reply->readAll());
 		SearchData search;
 		SearchList list;
-		qDebug() << data;
+
 		for(int pos = rx.indexIn(data); pos != -1; pos = rx.indexIn(data, pos + 1))
 		{
-			search.id = rx.cap(1).toInt();
+			search.link = rx.cap(1).replace("\\/", "/");
 			search.name = rx.cap(2);
 			search.size = rx.cap(3);
 			if(rxSize.indexIn(search.size) != -1)
