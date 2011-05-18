@@ -276,7 +276,7 @@ void CDownloadModel::clear()
 
 void DownloadData::serialize(QDataStream & stream) const
 {
-	stream << id << url << userAgent << fileName << quint8(state) << miscState
+	stream << id << name << url << userAgent << fileName << quint8(state) << miscState
 			<< downloaded << size << speed;
 }
 
@@ -284,7 +284,7 @@ void DownloadData::unserialize(QDataStream & stream)
 {
 	quint8 st;
 
-	stream >> id >> url >> userAgent >> fileName >> st >> miscState
+	stream >> id >> name >> url >> userAgent >> fileName >> st >> miscState
 			>> downloaded >> size >> speed;
 
 	state = DownloadState(st);

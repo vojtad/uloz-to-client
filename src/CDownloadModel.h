@@ -58,6 +58,7 @@ struct DownloadData
 
 	DownloadData(const DownloadData & data) :
 		id(data.id),
+		name(data.name),
 		url(data.url),
 		userAgent(data.userAgent),
 		fileName(data.fileName),
@@ -70,6 +71,7 @@ struct DownloadData
 	}
 
 	quint32 id;
+	QString name;
 	QString url;
 	QString userAgent;
 

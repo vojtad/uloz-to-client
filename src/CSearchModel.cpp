@@ -162,7 +162,7 @@ void CSearchModel::searchComplete(QNetworkReply * reply)
 {
 	if(reply->isFinished() && reply->error() == QNetworkReply::NoError)
 	{
-		QRegExp rx("<div class=\\\\\"innerthumb\\\\\">[^<]*<a href=\\\\\"([^\"]+)\\\\\"><img[^>]*\\\\/><\\\\/a>[^<]*<\\\\/div>[^<]*<\\\\/div>[^<]*<div class=\\\\\"info\\\\\">[^<]*<h4>[^<]*<a class=\\\\\"name\\\\\" href=\\\\\"[^\"]+\\\\\" title=\\\\\"([^\"]+)\\\\\">[^<]+<\\\\/a>[^<]*<\\\\/h4>[^<]*<span class=\\\\\"lft\\\\\">[^<]*<\\\\/span>[^<]*<span[^>]*>([^<]+)<\\\\/span>");
+		QRegExp rx("<div class=\\\\\"innerthumb\\\\\">[^<]*<a href=\\\\\"([^\"]+)\\\\\">[^<]*<img[^>]*\\\\/>[^<]*<\\\\/a>[^<]*<\\\\/div>[^<]*<\\\\/div>[^<]*<div class=\\\\\"info\\\\\">[^<]*<h4>[^<]*<a class=\\\\\"name\\\\\" href=\\\\\"[^\"]+\\\\\" title=\\\\\"([^\"]+)\\\\\">[^<]+<\\\\/a>[^<]*<\\\\/h4>[^<]*<span class=\\\\\"lft\\\\\">[^<]*<\\\\/span>[^<]*<span[^>]*>([^<]+)<\\\\/span>");
 		QRegExp rxSize("^([0-9:]+) \\| (.+)$");
 		QByteArray data(reply->readAll());
 		SearchData search;
@@ -173,6 +173,7 @@ void CSearchModel::searchComplete(QNetworkReply * reply)
 			search.link = rx.cap(1).replace("\\/", "/");
 			search.name = rx.cap(2);
 			search.size = rx.cap(3);
+			qDebug() << rx.capturedTexts();
 			if(rxSize.indexIn(search.size) != -1)
 			{
 				search.videoLength = rxSize.cap(1);

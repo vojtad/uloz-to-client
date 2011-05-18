@@ -167,7 +167,14 @@
     </widget>
    </item>
    <item row="2" column="0" colspan="6">
-    <widget class="QTreeView" name="searchView"/>
+    <widget class="QTreeView" name="searchView">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
