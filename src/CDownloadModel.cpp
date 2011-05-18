@@ -149,6 +149,8 @@ QVariant CDownloadModel::data(const QModelIndex & index, int role) const
 		case COL_NAME:
 			if(!data.fileName.isEmpty())
 				return data.fileName;
+			if(!data.name.isEmpty())
+				return data.name;
 			return data.url.split("/", QString::SkipEmptyParts).last();
 		case COL_SPEED:
 			return CDownloadModel::formatSize(data.speed, "B/s");

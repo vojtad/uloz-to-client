@@ -58,7 +58,7 @@ void CMainWindow::on_actionAdd_download_triggered()
 			foreach(const QString & url, list)
 			{
 				stream << dialog.autoStart();
-				stream << url;
+				stream << url << QString("");
 			}
 
 			stream.device()->seek(0);
